@@ -1,0 +1,56 @@
+/* -----------------------------------------
+--  This file contains very basic styles. --
+-------------------------------------------*/
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+/* -----------------------------------------------------------------
+-- This file contains all styles related to the button component. --
+------------------------------------------------------------------*/
+#sample-btn {
+  position: absolute;
+  bottom: 100px;
+  left: 44%;
+  color: black;
+  background: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px; }
+  #sample-btn:hover {
+    cursor: pointer; }
+
+/* -------------------------------------------------
+--  This file contains styles for index.html page. --
+---------------------------------------------------*/
+#intro-section {
+  background: url("../img/gulp-cover.png");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.intro-text {
+  position: relative;
+  top: 200px;
+  margin-left: 100px; }
+  .intro-text h1 {
+    color: white;
+    font-size: 2rem;
+    margin: 0; }
+  .intro-text p {
+    color: white;
+    font-size: 2rem; }
+
+.sample-elements h2 {
+  text-align: center; }
+
+.sample-elements p {
+  text-align: center; }
+
+/*# sourceMappingURL=main.css.map */

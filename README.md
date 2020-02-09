@@ -8,11 +8,13 @@
 - Combine files (concatenate) into another file
 
 **Gulp 4 Templae makes it easy to set your own custom tasks, turn features on and off**, without having to modify gulp tasks.
-## Installing Gulp
+## Geting started
+---
+### Installing Gulp
 To be able to use this template you need to have:
 - [Node.js (Node) installed onto your computer](https://nodejs.org/en/download/)
 - [Gulp Command Line Utility](https://gulpjs.com/docs/en/getting-started/quick-start)
-## Quick Start
+### Quick Start
 1. Clone this repository to your computer.
 2. In bash/terminal/command line, `cd` into cloned project.
 3. Run `npm install` to install required dependencies.
@@ -20,4 +22,13 @@ To be able to use this template you need to have:
     - `gulp` which will serve files and wathc for changes
     - `gulp build` which will minimize all files and send them in dist folder
 
-**Test this template.** After running `gulp` task, you can change any file inside src folder and see them recompile automatilly.
+**Test this template.** After running `gulp` task, you can change any file inside src folder and see them recompile automatilly. Also you can put inside project your own files, but you need to pay attention to maintan folder structure.
+## Documentation
+---
+> All assigned tasks can be checked by typing `gulp --tasks` in command line
+### HTML
+Put your HTML files i root of `src/` directory. When you run `gulp` task HTML files will stay as-is and gulp will watch every time you made change in file.
+
+When you run `gulp dist` task HTML files will be minified and copied to dist directory. If you want to minifie only HTML files you can also run `gulp html` task.
+
+
