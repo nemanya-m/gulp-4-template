@@ -13,7 +13,11 @@ const gulp = require('gulp'),
       postcss = require('gulp-postcss'),
       cssnano = require('cssnano'),
       autoprefixer = require('autoprefixer'),
-      imagemin = require('gulp-imagemin');
+      imagemin = require('gulp-imagemin'),
+      markdown = require('gulp-markdown'),
+      babel = require('gulp-babel'),
+      uglify = require('gulp-uglify');
+
 
 /*You can choose whether to use Dart Sass or Node Sass by setting the sass.compiler property.
 Node Sass will be used by default, but it's strongly recommended that you set it explicitly
@@ -58,6 +62,12 @@ var paths = {
   },
   img: {
     src: "./src/img/*"
+  },
+  markdown: {
+    src: "./**/*.md"
+  },
+  scripts: {
+    src: './src/scripts/js/**/*.js'
   }
 }
 
@@ -124,6 +134,38 @@ function styleSass() {
       .pipe(browserSync.stream())
   );
 }
+// Markdown to HTML
+function markdownToHTML() {
+  return (
+    gulp.src(paths.markdown.src)
+      .pipe(markdown())
+      .pipe(gulp.dest(outputDir))
+      .pipe(browserSync.stream())
+  )
+}
+// JAVASCRIPT task
+function script() {
+  return (
+    gulp.src(paths.scripts.src)
+      .pipe(gulpif(env === 'development', sourcemaps.init()))
+      .pipe(babel({
+        presets: ['@babel/preset-env']
+      }))
+      .pipe(concat('all.js'))
+      .pipe(gulpif(env === 'development', sourcemaps.write('./')))
+      .pipe(gulpif(env === 'production', uglify()))
+      .pipe(gulp.dest(outputDir + 'scripts'))
+      .pipe(browserSync.stream())
+    /* gulp.src(paths.scripts.src)
+      .pipe(babel({
+        presets: ['@babel/preset-env']
+      }))
+      .pipe(concat('all.js'))
+      .pipe(gulpif(env === 'production', uglify()))
+      .pipe(gulp.dest(outputDir))
+      .pipe(browserSync.stream()) */
+  );
+}
 // Minifie images
 function imageMin() {
   return (
@@ -154,12 +196,14 @@ function watch() {
   // This can be html or whatever you're using to develop your website
   // Note -- you can obviously add the path to the Paths object
   gulp.watch(paths.styles.scss, styleSass)
+  gulp.watch(paths.markdown.src, markdownToHTML)
+  gulp.watch(paths.scripts.src, script)
 }
 /*************
  ** EXPORTS **
  *************/
 // Set of gulp functions which will serve files and wathc for changes
-const serve = gulp.series(setDevelopmentEnv, setVariables, gulp.parallel(html, styleSass, watch))
+const serve = gulp.series(setDevelopmentEnv, setVariables, gulp.parallel(html, styleSass, script, watch))
 // Set of gulp functions which will minimize all files and send them in dist folder
 const build = gulp.series(setProductionEnv, setVariables, cleanup, gulp.parallel(html, styleSass, imageMin))
 
@@ -171,6 +215,8 @@ exports.html = gulp.series(setProductionEnv, setVariables, cleanup, gulp.paralle
 exports.sass = gulp.series(setProductionEnv, setVariables, cleanup, gulp.parallel(styleCSS));;
 // $ gulp sass
 exports.sass = gulp.series(setProductionEnv, setVariables, cleanup, gulp.parallel(styleSass));;
+// $ gulp markdown
+exports.markdown = gulp.series(setProductionEnv, setVariables, cleanup, gulp.parallel(markdownToHTML));;
 // $ gulp image
 exports.image = gulp.series(setProductionEnv, setVariables, cleanup, gulp.parallel(imageMin));;
 
